@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head.ejs') %>
+<body>
+
+    
+    <%- include('../partials/navbar.ejs') %>
+    <!--here we are using - beacuse we are including a file and we use this method usually when a particular peice of the html code is being reused-->
+
+    <div class="tasks content">
+        <h2>All Tasks</h2>
+        <% if (tasks.length>0){ %>
+            <!-- this is to check if the array is empty or not  -->
+             <% tasks.forEach(task=>{ %> 
+                <!--we are using forEach method to cycle through the array-->
+                <!--this will fire up the function containing the h3 and p tag for each task in the array-->
+                <a class="single" href="/tasks/<%= task._id %>"> <!--Mongodb provides us with _id for each individual task(data) which we can access-->
+                    <!--here <%= task._id %> is a route parameter which will change for eact task-->
+                    <h3 class="title"><%= task.title %></h3>
+                    <p class="snippet"><%= task.taskday %></p>
+                </a>
+                <!--now we are printing the title and snippet respectively using =-->
+            <% }) %>
+        <% }else{ %>
+            <p>No tasks scheduled....</p>
+        <% } %>
+        
+
+    </div>
+    <%- include('../partials/footer.ejs') %>
+</body>
+</html>

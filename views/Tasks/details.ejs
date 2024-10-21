@@ -1,0 +1,41 @@
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+<body>
+  <%- include("../partials/navbar.ejs") %>
+
+  <div class="details content">
+    <h2><%= task.title %></h2>
+    <div class="content">
+      <p><%= task.body %></p>
+    </div>
+    <a class="delete" data-doc="<%= task._id %>">Completed</a> <!--this will help us to delete the data(task) once completed-->
+        <!--Here data- is a special type of attribute given by html which help us to make custom attributes,... here we have made a custom attribute named 'doc'-->
+        <!-- we are giving the value of task._id to the doc attribute which we need to delete-->
+   </div>
+
+  <%- include("../partials/footer.ejs") %>
+
+  <script>// this will run the js in the frontend rather than in the backend of the server
+    const trashCan = document.querySelector('a.delete');
+    trashCan.addEventListener('click',(e)=>{
+        const endPoint = `/tasks/${trashCan.dataset.doc}`; // here we are accessing the id of the task through ${trashCan.dataset.doc} (we are basically accessing the custom attribute that we set in the anchor tag)
+
+        fetch(endPoint,{
+            method: 'DELETE' // this will fetch the endpoint (that is the url we are sendind the delete request in) 
+        })
+            .then((response)=>{// here we are getting the json response which we gave in the app.js 
+                return response.json();// this will return a promise
+            })
+            .then((data)=>{// we are storing that promise in the variable data
+                // the promise is the object that we passsed in the request in the app.js(redirect: '/tasks')
+                window.location.href = data.redirect;// this will redirect us to the /tasks page 
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+    })
+
+  </script>
+</body>
+</html>
